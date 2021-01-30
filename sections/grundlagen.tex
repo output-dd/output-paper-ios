@@ -8,6 +8,8 @@ Eine Festlegung, die bereits vor der Reimplementation der Apps getroffen wurde, 
 
 \section{Datenfluss- und Architekturpatterns in SwiftUI}
 
+In der nachfolgenden Sektion sollen zunächst die wesentlichsten Grundlagen des Datenflusses in SwiftUI-Ansichten erläutert werden. Anschließend werden verschiedene Patterns vorgestellt, die sich im Implementationskonzept wiederspiegeln und auch zukünftig idealerweise weiter genutzt werden sollten.
+
 \subsection{Darstellung von View-Daten}
 
 Im Unterschied zum imparativen UI-Programmierkonzept, bei dem konkrete Elemente der Ansicht, wie bspw. Labels oder Textfelder imparativ konfiguriert und mit den darzustellenden Daten ausgestattet werden, referenziert eine SwiftUI Ansicht (\enquote{View}) die darzustellenden Daten direkt aus dem Code, da sie selbst deklarativ in Form von Code geschrieben werden kann.
@@ -32,13 +34,19 @@ In \Cref{fig:coordinator} ist das Pattern am Beispiel illustriert. Auch zu sehen
 
 \subsection{Environment-Pattern}
 
+Als weiteres wichtiges Datenfluss-Pattern dient das Environment-Pattern. Hierbei wird, ähnlich zum Coordinator-Pattern, ein koordinierendes Umgebungsobjekt instanziiert und in der Besitz ergreifenden View als \texttt{@StateObject} markiert. Anschließend wird das Umgebungsobjekt im Environment der Unteransichten mitgegeben, über den ViewModifier \texttt{view.environmentObject(object)}. Dies ist zum Beispiel sinnvoll, wenn eine Unteransicht bestimmte Daten aus dem Kontext beziehen und/oder modifizieren möchte.
+
 \begin{figure}[H]
 \includegraphics[width=\linewidth, bb=0 0 275 167]{environment.pdf}
 \caption{Das Environment Pattern illustriert am Beispiel der Map View: Die Map View erstellt ihr eigenes Environment und gibt dieses an ihre Unteransichten weiter. Somit kann die gewählte Etage von einer Unteransicht modifiziert werden, von anderen Unteransichten wird sie lediglich dargestellt.}\label{fig:coordinator}
 \end{figure}
 
-\subsection{MVVM-Pattern}
+In \Cref{fig:coordinator} ist dieses Pattern am Beispiel illustriert. Ein großer Vorteil des Patterns ist, dass das über den ViewModifier weitergegebene Umgebungsobjekt transitiv an alle weiteren Unteransichten weitergeleitet wird, die sich möglicherweise in dieser Unteransicht befinden. Der Bezug des Objektes findet anschließend über \texttt{@EnvironmentObject var object} statt. Ein Problem hierbei ist, dass das Objekt nicht optional weitergegeben werden kann, was die Preview der SwiftUI Unteransichten erschwert. Die hierfür applizierte Lösung hierfür wird später im Konzeptkapitel näher beschrieben.
 
-\subsection{Proxy-Pattern}
+\subsection{View-Proxy-Pattern}
 
-\subsectino{Eventbasierte Datenflüsse}
+Die Grundlagen des Environment-Pattern und des Coordinator-Pattern können weiterhin genutzt werden, um bestimmte Bestandteile der Geschäftslogik im View-Proxy-Pattern zu separieren. Hierbei wird eine dedizierte View erstellt, deren Aufgabe es ist, bestimmte Datenverarbeitungsoperationen durchzuführen und bei Beendigung dessen die Produkte dieser Operation als Umgebungsobjekt bzw. Proxy-Objekt der inneren View bereitzustellen. Hierfür wird die innere View der Proxy View als \texttt{@ViewBuilder}-Closure übergeben. Ein klassisches Beispiel für das View-Proxy-Pattern ist der von SwiftUI standardmäßig bereitgestellte \texttt{GeometryReader}, welcher als View genutzt werden kann, um ein Proxy-Objekt für die Geometrie der View zu erstellen, bspw. um die Größe einer Ansicht zu bestimmen. Im Konzept der App wird dies später für die Initialisierung der Datenbank und Replikatoren adaptiert und an dieser Stelle noch einmal genauer beschrieben.
+
+\subsection{Eventbasierte Datenflüsse}
+
+Eventbasierte Datenflüsse stellen ein weiteres wichtiges Pattern für die Weitergabe von Daten dar. Bei den bisherigen Pattern wurden lediglich Methoden vorgestellt, mithilfe derer sich ein Datenfluss zwischen mehreren Views in \textit{derselben} View-Hierarchie realisieren lässt. In manchen Fällen ist es jedoch notwendig, dass bestimmte Datenverarbeitungsprozesse von der View-Hierarchie entkoppelt werden, beispielsweise bei periodischen Hintergrundprozessen. Um in diesem Fall dennoch bspw. eine entsprechende Meldung im UI anzuzeigen, können globale Events ausgelöst werden, die von Observern innerhalb der View aufgegriffen und zur Anzeige verarbeitet werden können. Hierbei kann das \texttt{NotificationCenter} genutzt werden, um Nachrichten auf einen Event-Bus zu pushen und innerhalb der View über einen so genannten \texttt{Publisher} zu empfangen. Auch dieses Pattern wird später noch an einem konkreten Beispiel im Rahmen des Implementationskonzeptes zu den Spiel-Errungenschaften gezeigt.
