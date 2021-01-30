@@ -1,85 +1,19 @@
-\chapter{Examples}\label{ch:examples}\pagenumbering{arabic}
+\chapter{Einleitung}\label{ch:einleitung}\pagenumbering{arabic}
 
-\todo{Remove this example todo.}
+OUTPUT.DD ist eine jährlich stattfindende Projektschau, auf welcher in der Fakultät Informatik der Technischen Universität Dresden wissenschaftliche Projekte von Studenten, Firmen und Mitarbeitern präsentiert und ausgestellt werden. Begleitend zur Projektschau wird den Besuchern der Veranstaltung jeweils eine App für iOS und Android zur Verfügung gestellt. Die Apps dienen dabei selbst nicht nur als Plattform, über welche Nutzer den zeitlichen und topografischen Veranstaltungsplan einsehen können, sondern auch als Integrationspunkt für verschiedene Forschungsprojekte aus den Bereichen Mediengestaltung, Application Development und Mobile Computing. So wird die Interaktion der Nutzer beispielsweise durch eine Gamification\footnote{Gamification. Einsatz von Spielelementen in einem Nicht-Spiel-Kontext.} motiviert und geleitet, oder die Bewegung des Nutzers auf der Messe über ein im Rahmen des Forschungsprojektes \enquote{Mapbiquitous} entstandenes Beaconing-Framework verfolgt, um das Besucheraufkommen zu analysieren und dem Nutzer eine interaktive Heatmap auf der Kartenansicht der Veranstaltung anzuzeigen. Außerdem nutzt die App das Offline-First-Prinzip aus dem Forschungsbereich Ubiquitäre Applikationen, bei dem die in der App angezeigten Daten koordiniert von einem Server-Backend synchronisiert werden, um bei einem Netzwerkausfall weiterhin so viele Funktionalitäten wie möglich zu unterstützen und die offline geschriebenen Daten bei der Wiederherstellung der Verbindung im Hintergrund zu aktualisieren. Im Sommer 2020 wurden für die beiden Apps jeweils Datenbank-Frameworks für die NoSQL-Datenbank Couchbase entwickelt, welche architekturell im Repository-Pattern\footnote{Repository-Pattern. Architekturelles Pattern zur Abstraktion und Separation von Datenbankabfragen durch die Bereitstellung von CRUD-Operationen (Create, Read, Update, Delete).} umgesetzt wurden und zur Synchronisation der Daten so genannte Replikatoren bereitstellen, die über einen Synchronisationsdienst mit dem Couchbase Backend-Server kommunizieren.
 
-\section{Inline Code, Footnotes and URLs}
+\section{Problemstellung}
 
-This an example text, which shows you, how to use the \texttt{tudscr}\footnote{TUD-Script. \url{https://github.com/tud-cd/tudscr} (Visited on Sept. 15 2020)} template and its components. Feel free to remove this example text or use the provided segments for your thesis.
+Da die OUTPUT.DD Apps in den vergangenen Jahren noch auf ein anderes, auf Realm basierendes, Datenbank-Backend aufsetzten, musste eine Substitution des Datenbank-Backends analysiert, geplant, durchgeführt und getestet werden.
 
-\section{Research Questions, Inline TODOs, Citations and Referencing}
+Durch die sukzessive funktionelle Erweiterung der Apps über mehrere Jahre unter verschiedenen Teams mit jeweils unterschiedlichen Qualitätsansprüchen, Zeitvorgaben und Kenntnisständen bildeten sich außerdem mehrere Probleme in der Implementation heraus, die durch einen Audit der iOS-Codebasis am 5.4.2020 identifiziert werden konnten:
 
-We'd like to answer the following research goals.\todo[inline]{You may of course write some more text than given in this example.}
+\begin{itemize}
+  \item \textbf{Strukturelle Antipatterns}, darunter eine schwer nachvollziehbare Ordner- und Dateistrukturierung, das Nichtvorhandensein einer Separation in Module, sowie die Vermischung von abkapselbaren externen und internen Frameworks mit der primären Codebasis
+  \item \textbf{Architekturelle Antipatterns}, wie beispielsweise die \enquote{Verschmutzung}\footnote{Verschmutzung. Von Englisch \enquote{Pollution}, wird oft als Fachbegriff verwendet, um die Degradation der Codequalität durch fehlpositionierte Codefragmente zu verbildlichen.} des Codes durch globale Erweiterungen von Datenbankmodellen an unerwarteten Stellen
+  \item \textbf{Weitere Probleme}, darunter die Ignorierung von Sicherheitsrisiken durch das Ausschalten von Dependency-Warnings, an einer Stelle auch die Fehlverwendung von View-Life-Cycles, das allgemeine Vorhandensein Code Smells und die technische Alterung des Objective-C Codes.
+\end{itemize}
 
-\begin{researchquestion}\label{rq:matrix}
-Do we live in the Matrix?
-\end{researchquestion}
+\section{Ziele der Projektarbeit}
 
-\noindent Feel free to explain the motivation behind your research questions.
-
-\begin{researchquestion}\label{rq:possible}
-Based on \cite{gos_2020}, is it actually possible to answer \Cref{rq:matrix} in the first place?
-\end{researchquestion}
-
-\noindent This research question is relevant, because it just came to my mind. Pull Request if you have a better example, thanks.
-
-\section{Including Graphics and Paragraphs}
-
-Although this has really nothing to do with the previous sections, take the following as an example of how to include graphics.
-
-\begin{figure}[H]
-\includegraphics[width=\linewidth, bb=0 0 1626 1038]{example.pdf}
-\caption{A really informative diagram following the magical-number-7-principle of Miller \cite{magical_2020}.}\label{fig:example-single}
-\end{figure}
-
-\noindent As shown in \Cref{fig:example-single}, including graphics is really easy with PDF files, but you need to give it a \textit{bounding box}, which is simply \texttt{0 0 <width> <height>}. Here is how to include PNG files.
-
-\begin{figure}[H]
-\includegraphics[width=0.75\linewidth]{example.png}
-\caption{The same diagram but in PNG and smaller.}\label{fig:example-small}
-\end{figure}
-
-\noindent With PNG, no bounding box must be given, but the size of your thesis PDF will probably increase by some order of magnitudes. So try to use PDF whenever possible. Also, avoid JPEG because of the lossy compression. We want our thesis to look nice, or wont we? Try to fiddle around with the option \texttt{H} after the figure, if it doesn't fit the page. This will not be explained here, read the documentation.
-
-\paragraph{One last example:} use the following snippet to include multiple graphics in a table-like structure.
-
-\begin{figure}[H]
-\begin{tabular}{ll}
-\includegraphics[width=0.4\linewidth, bb=0 0 1626 1038]{example.pdf}
-&
-\includegraphics[width=0.4\linewidth, bb=0 0 1626 1038]{example.pdf}
-\\
-\includegraphics[width=0.4\linewidth, bb=0 0 1626 1038]{example.pdf}
-&
-\includegraphics[width=0.4\linewidth, bb=0 0 1626 1038]{example.pdf}
-\end{tabular}
-\caption{Deja vu? It seems, like I've already seen this diagram.}\label{fig:example-multiple}
-\end{figure}
-
-\section{Code, Tables and Quotation}
-
-What about some nice XML? Btw, always \enquote{quote} with the according tag.
-
-\begin{lstlisting}[language=XML]
-<note>
-  <from>Philipp</from>
-  <to>Reader</to>
-  <heading>Contact me</heading>
-  <email>mail@philippmatth.es</email>
-</note>
-\end{lstlisting}
-
-\noindent Check out this table! Btw, this may seem a bit confusing, but there is \texttt{tabular}, \texttt{tabularx} or for example also \texttt{longtable}, which is for tables across multiple pages.
-
-\begin{table}[H]
-\caption{The caption of your table.}\label{tab:example}
-\begin{tabularx}{\textwidth}{{
-  >{\hsize=.5\hsize\linewidth=\hsize}X
-  >{\hsize=1.5\hsize\linewidth=\hsize}X
-}}
-\hline
-Column 1 & Wider Column 2 \\ \hline \hline
-Entry 1.1 & Entry 1.2 \\ \hline
-\end{tabularx}
-\end{table}
-
-\noindent This was nice. Is there anything missing? File a pull request!
+Da OUTPUT.DD 2020 vor dem Hintergrund der Sars-CoV-2 Pandemie nicht stattfand, wurde im Projektteam beschlossen, diese Probleme durch eine Neuimplementation der Applikation zu beheben, mit dem beiläufigen Ziel, auch das neue Datenbank-Backend zu integrieren. Im Projektteam wurde entschieden, die Apps mit den jeweils aktuellsten Technologien neu zu implementieren, darunter eine Reimplementation der Android-App mit der Programmiersprache Kotlin, sowie eine (in dieser Arbeit näher beschriebenen) Reimplementation der iOS-App mit der Programmiersprache Swift und dem 2019 von Apple eingeführten UI-Framework SwiftUI, welches eine deklarative Ansichtserstellung ermöglicht. Hierdurch sollten die Apps technisch und visuell modernisiert werden. Bei der Reimplementation sollten die oben beschriebenen Probleme durch die Einführung klarer Architektur- und Strukturpatterns möglichst vermieden werden, sowie außerdem konkrete Strategien und Richtlinien entworfen werden, um ein Wiedereintreten dieser Probleme zu vermeiden und somit zukünftigen Projektteams die Weiterentwicklung der Apps zu erleichtern. Diese Arbeit soll einen chronologischen Überblick darüber geben, welche Schritte gegangen wurden, um diese Ziele zu erreichen, und die Endprodukte schließlich evaluieren.
