@@ -9,9 +9,9 @@ Da die OUTPUT.DD Apps in den vergangenen Jahren noch auf ein anderes, auf Realm 
 Durch die sukzessive funktionelle Erweiterung der Apps über mehrere Jahre unter verschiedenen Teams mit jeweils unterschiedlichen Qualitätsansprüchen, Zeitvorgaben und Kenntnisständen bildeten sich außerdem mehrere Probleme in der Implementation heraus, die durch einen Audit der iOS-Codebasis am 5.4.2020 identifiziert werden konnten:
 
 \begin{itemize}
-  \item \textbf{Strukturelle Antipatterns}, darunter eine schwer nachvollziehbare Ordner- und Dateistrukturierung, das Nichtvorhandensein einer Separation in Module, sowie die Vermischung von abkapselbaren externen und internen Frameworks mit der primären Codebasis
+  \item \textbf{Strukturelle Antipatterns}, darunter eine schwer nachvollziehbare Ordner- und Dateistrukturierung, das teils fehlende Separation in Module, sowie die Vermischung von abkapselbaren externen und internen Frameworks mit der primären Codebasis
   \item \textbf{Architekturelle Antipatterns}, wie beispielsweise die \enquote{Verschmutzung}\footnote{Verschmutzung. Von Englisch \enquote{Pollution}, wird oft als Fachbegriff verwendet, um die Degradation der Codequalität durch fehlpositionierte Codefragmente zu verbildlichen.} des Codes durch globale Erweiterungen von Datenbankmodellen an unerwarteten Stellen
-  \item \textbf{Weitere Probleme}, darunter die Ignorierung von Sicherheitsrisiken durch das Ausschalten von Dependency-Warnings, an einer Stelle auch die Fehlverwendung von View-Life-Cycles, das allgemeine Vorhandensein Code Smells und die technische Alterung des Objective-C Codes.
+  \item \textbf{Weitere Probleme}, darunter die Ignorierung von potentiellen Sicherheitsrisiken durch das Ausschalten von Dependency-Warnings, an einer Stelle auch die Fehlverwendung von View-Life-Cycles, das allgemeine Vorhandensein Code Smells und die technische Alterung des Objective-C Codes.
 \end{itemize}
 
 \section{Ziele der Projektarbeit}

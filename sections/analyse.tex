@@ -6,7 +6,7 @@ Bevor auf Grundlage der architekturellen Ideen aus \Cref{ch:grundlagen} ein konk
 
 Zu Beginn der Analyse wurde die bestehende iOS App getestet, um alle möglichen Navigationswege und Dialoge zu sammeln und innerhalb einer Übersicht zu betrachten.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \includegraphics[width=\linewidth, bb=0 0 2123 2002]{mindmap.pdf}
 \caption{Die erstellte Dialoglandkarte zur bestehenden Version der iOS App zeigt die Navigationswege innerhalb der App, sowie die genutzten UI-Elemente.}\label{fig:mindmap}
 \end{figure}
@@ -15,14 +15,14 @@ Zu Beginn der Analyse wurde die bestehende iOS App getestet, um alle möglichen 
 
 \section{Struktur des Couchbase-Datenbank-Frameworks}
 
-Die Persistierung der Applikationen kann über verschiedene Frameworks geschehen, iOS bietet standardmäßig bereits eine sehr rudimentäre Persitenzschnittstelle unter \texttt{UserDefaults}, auf Android analog hierzu \texttt{SharedPreferences}. Da jedoch nicht nur eine größere Anzahl an Daten persistiert werden müssen (Sponsoren, Spieldaten, Kalenderereignisse, Heatmap uvm.), sondern diese auch mit einem Server-Backend nach dem Offline-First-Prinzip synchronisiert werden sollen, kommen nur wenige fortgeschrittene Persistenz-Frameworks in Frage. Ehemals nutzten die Apps eine Realm-Datenbank, welche wegen externer Konditionen jedoch nicht mehr in Frage kam. Daher wurde ein Couchbase-Framework erstellt, inklusive eines Server-Backend-Systems, welches einen Synchronisationsservice und unter anderem auch einen Registrationsservice umfasst.
+Die Persistierung der Applikationen kann über verschiedene Frameworks geschehen, iOS bietet standardmäßig bereits eine sehr rudimentäre Persitenzschnittstelle unter \texttt{UserDefaults}\footnote{\url{https://developer.apple.com/documentation/foundation/userdefaults} (Abgerufen am 1.2.2021)}, auf Android analog hierzu \texttt{SharedPreferences}\footnote{\url{https://developer.android.com/reference/android/content/SharedPreferences} (Abgerufen am 1.2.2021)}. Da jedoch nicht nur eine größere Anzahl an Daten persistiert werden müssen (Sponsoren, Spieldaten, Kalenderereignisse, Heatmap uvm.), sondern diese auch mit einem Server-Backend nach dem Offline-First-Prinzip synchronisiert werden sollen, kommen nur wenige fortgeschrittene Persistenz-Frameworks in Frage. Ehemals nutzten die Apps eine Realm-Datenbank, welche wegen externer Konditionen jedoch nicht mehr in Frage kam. Daher wurde ein Couchbase-Framework erstellt, inklusive eines Server-Backend-Systems, welches einen Synchronisationsservice und unter anderem auch einen Registrationsservice umfasst.
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth, bb=0 0 396 161]{wrapper.pdf}
 \caption{Eine Übersicht über das zu integrierende Couchbase-Framework. Über eine abstrahierende Wrapper-Programmierschnittstelle wird auf die Datenbank zugegriffen.}\label{fig:wrapper}
 \end{figure}
 
-\noindent Die Metastruktur des Frameworks ist in \Cref{fig:wrapper} gezeigt. Um die Nutzung von Couchbase zu vereinfachen, wurde das Framework in eine abstrahierende Wrapper-Programmierschnittstelle eingebunden, welche die wichtigsten CRUD-Operationen, On-Change-Listener und auch die Synchronisationskomponente (Replikator) bereitstellt.
+\noindent Die Metastruktur des Frameworks ist in \Cref{fig:wrapper} gezeigt. Um die Nutzung von Couchbase zu vereinfachen, wurde das Framework in eine abstrahierende Wrapper-Programmierschnittstelle eingebunden, welche die wichtigsten CRUD\footnote{CRUD: Create, Read, Update, Delete}-Operationen, On-Change-Listener und auch die Synchronisationskomponente (Replikator) bereitstellt.
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth, bb=0 0 491 153]{repository.pdf}
