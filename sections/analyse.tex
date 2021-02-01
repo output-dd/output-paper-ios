@@ -11,7 +11,7 @@ Zu Beginn der Analyse wurde die bestehende iOS App getestet, um alle möglichen 
 \caption{Die erstellte Dialoglandkarte zur bestehenden Version der iOS App zeigt die Navigationswege innerhalb der App, sowie die genutzten UI-Elemente.}\label{fig:mindmap}
 \end{figure}
 
-Die in \Cref{fig:mindmap} gezeigte Dialoglandkarte suggeriert bereits die verschiedenen Gruppierungen von Ansichten, welche wir später zur Erstellung von neuen Packages heranziehen konnten. Zu sehen ist beispielsweise, dass die Spiel-Ansichten, der Einführungsassistent, oder bspw. auch die Kalender-Ansicht bereits gut voneinander separierbar sind. Die aufgezeichneten Navigationspfeile zwischen den Ansichten konnten genutzt werden, um die Datenflüsse hierbei vor der Erstellung des Konzeptes besser zu verstehen und die jeweils hierfür am Besten geeigneten Patterns zu finden.
+\noindent Die in \Cref{fig:mindmap} gezeigte Dialoglandkarte suggeriert bereits die verschiedenen Gruppierungen von Ansichten, welche wir später zur Erstellung von neuen Packages heranziehen konnten. Zu sehen ist beispielsweise, dass die Spiel-Ansichten, der Einführungsassistent, oder bspw. auch die Kalender-Ansicht bereits gut voneinander separierbar sind. Die aufgezeichneten Navigationspfeile zwischen den Ansichten konnten genutzt werden, um die Datenflüsse hierbei vor der Erstellung des Konzeptes besser zu verstehen und die jeweils hierfür am Besten geeigneten Patterns zu finden.
 
 \section{Struktur des Couchbase-Datenbank-Frameworks}
 
@@ -22,32 +22,32 @@ Die Persistierung der Applikationen kann über verschiedene Frameworks geschehen
 \caption{Eine Übersicht über das zu integrierende Couchbase-Framework. Über eine abstrahierende Wrapper-Programmierschnittstelle wird auf die Datenbank zugegriffen.}\label{fig:wrapper}
 \end{figure}
 
-Die Metastruktur des Frameworks ist in \Cref{fig:wrapper} gezeigt. Um die Nutzung von Couchbase zu vereinfachen, wurde das Framework in eine abstrahierende Wrapper-Programmierschnittstelle eingebunden, welche die wichtigsten CRUD-Operationen, On-Change-Listener und auch die Synchronisationskomponente (Replikator) bereitstellt.
+\noindent Die Metastruktur des Frameworks ist in \Cref{fig:wrapper} gezeigt. Um die Nutzung von Couchbase zu vereinfachen, wurde das Framework in eine abstrahierende Wrapper-Programmierschnittstelle eingebunden, welche die wichtigsten CRUD-Operationen, On-Change-Listener und auch die Synchronisationskomponente (Replikator) bereitstellt.
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth, bb=0 0 491 153]{repository.pdf}
 \caption{Das Couchbase-Framework kapselt die Datenmodelle in voneinander separierte Repositories, auf denen unter anderem grundlegende CRUD-Operationen möglich sind.}\label{fig:repository}
 \end{figure}
 
-\Cref{fig:repository} illustriert, wie die Datenmodelle der Applikation geschrieben und gelesen werden können. Die Repository-Schnittstelle des jeweiligen Datenmodells bietet die dazugehörigen Funktionalitäten an.
+\noindent \Cref{fig:repository} illustriert, wie die Datenmodelle der Applikation geschrieben und gelesen werden können. Die Repository-Schnittstelle des jeweiligen Datenmodells bietet die dazugehörigen Funktionalitäten an.
 
 \begin{figure}[H]
 \includegraphics[width=\linewidth, bb=0 0 439 179]{generics.pdf}
 \caption{Die Repository-Schnittstelle wird generisch durch das Datenmodell und das dazugehörige Repository erzeugt. Der Änderungsaufwand bei einer Änderung des Datenmodells ist somit sehr gering und neue Datenmodelle können ohne größeren Aufwand hinzugefügt werden.}\label{fig:generics}
 \end{figure}
 
-Wie in \Cref{fig:generics} gezeigt, werden die Repositories vom Framework generisch inferiert und anschließend in Form von standardisierte Schnittstellen bereitgestellt. Die diesen Schnittstellen zugrunde liegenden Datenbankabfragen müssen somit in der App nicht implementiert werden. Gleichzeitig kann das Datenbank-Backend bei Fortbestehen der Schnittstellen auch im Hintergrund ausgetauscht werden, ohne Änderungen in der App zu bedingen.
+\noindent Wie in \Cref{fig:generics} gezeigt, werden die Repositories vom Framework generisch inferiert und anschließend in Form von standardisierte Schnittstellen bereitgestellt. Die diesen Schnittstellen zugrunde liegenden Datenbankabfragen müssen somit in der App nicht implementiert werden. Gleichzeitig kann das Datenbank-Backend bei Fortbestehen der Schnittstellen auch im Hintergrund ausgetauscht werden, ohne Änderungen in der App zu bedingen.
 
 \section{Top-Level-Architektur und Muss-Kriterien}
 
 Auf Grundlage der erstellten Dialoglandkarte sowie der bekannten Datenbankstruktur des Couchbase-Frameworks wurde ein Top-Level-Architektur-Modell (TLA) erstellt, um die Applikation in voneinander weitestgehend unabhängige Teilbereiche zu separieren.
 
 \begin{figure}[H]
-\includegraphics[width=\linewidth, bb=0 0 347 282]{tla.pdf}
+\includegraphics[width=0.75\linewidth, bb=0 0 347 282]{tla.pdf}
 \caption{Die TLA der Applikation im Überblick.}\label{fig:tla}
 \end{figure}
 
-Wie in \Cref{fig:tla} zu sehen, wurde die Applikation in 12 Komponenten unterteilt. Im folgenden werden die zu diesen Komponenten gehörenden Muss-Kriterien erläutert:
+\noindent Wie in \Cref{fig:tla} zu sehen, wurde die Applikation in 12 Komponenten unterteilt. Im folgenden werden die zu diesen Komponenten gehörenden Muss-Kriterien erläutert:
 
 \begin{itemize}
     \item \textbf{Twitter} stellt alle Feed-Funktionalitäten bereit, inklusive der Feed-Ansicht und der Möglichkeit, neue Tweets zu erstellen.
@@ -64,4 +64,4 @@ Wie in \Cref{fig:tla} zu sehen, wurde die Applikation in 12 Komponenten untertei
     \item \textbf{Common} stellt Komponenten und Erweiterungen bereit, die in der gesamten Applikation benötigt werden, beispielsweise eine modulare Card-Ansicht, die sich im UI (siehe Dialoglandkarte) häufig wiederfindet.
 \end{itemize}
 
-Diese TLA soll nachfolgend im Rahmen verschiedener Konzepte verfeinert und implementiert werden.
+\noindent Diese TLA soll nachfolgend im Rahmen verschiedener Konzepte verfeinert und implementiert werden.
