@@ -88,6 +88,15 @@
 \usepackage{ellipsis}
 \let\ellipsispunctuation\relax
 
+\usepackage{xcolor, soul}
+
+\colorlet{hlcolor}{lightgray!20}
+\sethlcolor{hlcolor}
+
+\DeclareRobustCommand{\texttt}[1]{%
+    \hl{\ttfamily#1}%
+}
+
 \input{lst.tex} % code styles (listings)
 
 % use this custom theorem for research questions
